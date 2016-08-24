@@ -1,5 +1,6 @@
 var pointsArray = document.getElementsByClassName("point");
 
+
 var animatePoints = function(points){
        var revealPoint = function(index) {
            points[index].style.opacity = 1;
@@ -8,9 +9,8 @@ var animatePoints = function(points){
            points[index].style.WebkitTransform = "scaleX(1) translateY(0)";
        }
 
-       for (i = 0; i<points.length; i++){
-         revealPoint(i);
-       }
+       forEach(points,revealPoint);
+
 
     };
 
