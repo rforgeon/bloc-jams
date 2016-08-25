@@ -1,4 +1,4 @@
-//example album
+//example 1
 var albumPicasso = {
 
   title: 'The Colors',
@@ -15,7 +15,7 @@ var albumPicasso = {
   ]
 };
 
-//another example
+//example 2
 var albumMarconi = {
     title: 'The Telephone',
     artist: 'Guglielmo Marconi',
@@ -28,6 +28,22 @@ var albumMarconi = {
         { title: 'Fits in your pocket', duration: '3:21'},
         { title: 'Can you hear me now?', duration: '3:14' },
         { title: 'Wrong phone number', duration: '2:15'}
+    ]
+};
+
+//example 3
+var albumHoudini = {
+    title: 'The Great Escape',
+    artist: 'Harry Houdini',
+    label: 'Magic',
+    year: '1926',
+    albumArtUrl: 'assets/images/album_covers/07.png',
+    songs: [
+        { title: 'Mirror Challenge', duration: '52:01' },
+        { title: 'Milk Can Escape', duration: '10:20' },
+        { title: 'Chinese Water Torture Cell', duration: '5:21'},
+        { title: 'Suspended Straitjacket', duration: '2:37' },
+        { title: 'Overboard Box', duration: '0:57'}
     ]
 };
 
@@ -66,6 +82,18 @@ var setCurrentAlbum = function(album){
 
 window.onload = function() {
     setCurrentAlbum(albumPicasso);
+    //switchAlbum();
   };
 
-}
+
+
+  var albumCover = document.getElementsByClassName("album-cover-art")[0];
+  var albumCoverArray = [albumMarconi,albumHoudini,albumPicasso];
+  var i = 0;
+    albumCover.addEventListener('click', function(event) {
+        setCurrentAlbum(albumCoverArray[i]);
+        i++
+        if (i == albumCoverArray.length){
+            i = 0;
+        }
+  });
