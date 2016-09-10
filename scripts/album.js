@@ -17,8 +17,7 @@ var createSongRow = function(songNumber, songName, songLength) {
       var songItemNumber = parseInt($(this).attr('data-song-number'));
       if (currentlyPlayingSongNumber !== songNumber) {
              $(this).html(pauseButtonTemplate);
-             currentlyPlayingSongNumber = songNumber;
-             currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+             setSong(songNumber);
              updatePlayerBarSong();
          } else if (currentlyPlayingSongNumber === songNumber) {
              $(this).html(playButtonTemplate);
@@ -108,8 +107,8 @@ var nextSong = function(){
    updatePlayerBarSong();
 
    var lastSongNumber = getLastSongNumber(currentSongIndex);
-   var $nextSongNumberCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
-   var $lastSongNumberCell = $('.song-item-number[data-song-number="' + lastSongNumber + '"]');
+   var $nextSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
+   var $lastSongNumberCell = getSongNumberCell(lastSongNumber);
 
    $nextSongNumberCell.html(pauseButtonTemplate);
    $lastSongNumberCell.html(lastSongNumber);
@@ -138,6 +137,17 @@ var previousSong = function(){
 
    $nextSongNumberCell.html(pauseButtonTemplate);
    $lastSongNumberCell.html(lastSongNumber);
+}
+
+var setSong = function(songNumber){
+  currentlyPlayingSongNumber = songNumber;
+  currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+
+}
+
+//TODO: REPLACE THIS IN INDEX
+var getSongNumberCell = function(number){
+  return $('.song-item-number[data-song-number="' + number + '"]');
 }
 
 var updatePlayerBarSong = function(){
