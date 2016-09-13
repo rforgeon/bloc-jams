@@ -6,7 +6,7 @@ var createSongRow = function(songNumber, songName, songLength) {
     '<tr class="album-view-song-item">'
  + '  <td class="song-item-number" data-song-number="'+ songNumber + '">' + songNumber + '</td>'
  + '  <td class="song-item-title">' + songName + '</td>'
- + '  <td class="song-item-duration">' + songLength + '</td>'
+ + '  <td class="song-item-duration">' + buzz.toTimer(songLength) + '</td>'
  + '</tr>'
  ;
 
@@ -31,6 +31,7 @@ var createSongRow = function(songNumber, songName, songLength) {
              if (currentSoundFile.isPaused()){
                currentSoundFile.play();
                updateSeekBarWhileSongPlays();
+
                $(this).html(pauseButtonTemplate);
              }else{
                currentSoundFile.pause();
@@ -109,6 +110,8 @@ var updateSeekBarWhileSongPlays = function(){
     currentSoundFile.bind('timeupdate',function(event){
       var seekBarFillRatio = this.getTime() / this.getDuration();
       var $seekBar = $('.seek-control .seek-bar');
+      setCurrentTimeInPlayerBar();
+      setTotalTimeInPlayerBar();
 
       updateSeekPercentage($seekBar, seekBarFillRatio);
     });
@@ -163,13 +166,23 @@ var setupSeekBars = function() {
 
 
       });
-
+//TODO: when dragging song seek, song volume reduces after letting go
       $(document).bind('mouseup.thumb', function(){
         $(document).unbind('mousemove.thumb');
         $(document).unbind('mouseup.thumb');
       });
     });
 
+};
+
+var setCurrentTimeInPlayerBar = function(currentTime){
+  $('.current-time').html(buzz.toTimer(currentSoundFile.getTime()));
+};
+
+var setTotalTimeInPlayerBar = function(totalTime){
+  if (currentSoundFile){
+    $('.total-time').html(buzz.toTimer(currentSoundFile.getDuration()));
+  }
 };
 
 var trackIndex = function(album, song){
@@ -265,10 +278,13 @@ var getSongNumberCell = function(number){
 
 var updatePlayerBarSong = function(){
 
+  setTotalTimeInPlayerBar();
+
   $('.currently-playing .song-name').text(currentSongFromAlbum.title);
   $('.currently-playing .artist-name').text(currentAlbum.artist);
   $('.currently-playing .artist-song-mobile').text(currentSongFromAlbum.title + " - " + currentAlbum.artist);
   $('.main-controls .play-pause').html(playerBarPauseButton);
+
 };
 
 
@@ -291,7 +307,7 @@ var currentVolume = 80;
 
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
-var $mainControls = $('.main-controls .play-pause')
+var $mainControls = $('.main-controls .play-pause');
 
 
 $(document).ready(function() {
